@@ -16,7 +16,7 @@ import TextField from '@mui/material/TextField';
 import { columns, columnsfunds, DataFunds, TableDataProps } from '../interfaces/funds.interface'; // Importando desde el archivo columns.ts
 
 export default function TableData({ arrayColums, dataRow, isLoading, title,
-  onOpening, displayName
+  onOpening, displayName, keyId
 }: React.PropsWithChildren<TableDataProps>) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -85,7 +85,7 @@ export default function TableData({ arrayColums, dataRow, isLoading, title,
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: DataFunds) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row[keyId]}>
                       {arrayColums.map((column) => {
                         const value = row[column.id];
                         return (

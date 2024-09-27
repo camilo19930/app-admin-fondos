@@ -74,7 +74,7 @@ export function Cancelaciones() {
     return (
         <>
             <TableData arrayColums={columnsHistory} dataRow={enListDate(usersList)} isLoading={true} title="Lista de Fondos Actuales / Cancelaciones"
-                onOpening={handleCancel} displayName='cancelaciones'
+                onOpening={handleCancel} displayName='cancelaciones' keyId="historicoId"
             ></TableData>
             <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
                 <Alert onClose={handleCloseAlert} severity={alertSeverity} sx={{ width: '100%' }}>

@@ -42,3 +42,10 @@
 .hidden {
   visibility
 }
+
+.saldo-text {
+  font-size: 12px;
+  color: #ecf0f1;
+  margin-top: 5px;
+  margin-left: 10px;
+}

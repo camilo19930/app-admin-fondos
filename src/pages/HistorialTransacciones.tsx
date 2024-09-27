@@ -44,7 +44,7 @@ export function HistorialTransacciones() {
         const fondosActuales = data.flatMap((el: any) => el.historico);
         const modifiedHistorico = fondosActuales.map((fondo: any) => ({
             ...fondo,
-            estado: fondo.estado ? 'Activo' : 'Cancelado',
+            estado: fondo.estado ? 'Apertura' : 'Cancelación',
         }));
         return modifiedHistorico;
     }
@@ -54,7 +54,7 @@ export function HistorialTransacciones() {
     return (
         <>
             <TableData arrayColums={columnsHistory2} dataRow={enListDate(usersList)}
-                isLoading={true} title="Historial Transacciones" displayName='historial'
+                isLoading={true} title="Historial Transacciones" displayName='historial' keyId="historicoId"
             ></TableData>
             <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
                 <Alert onClose={handleCloseAlert} severity={alertSeverity} sx={{ width: '100%' }}>

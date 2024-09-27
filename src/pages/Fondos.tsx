@@ -7,6 +7,7 @@ import { getFund } from "../redux/FundSlide.ts";
 import { useSelector } from "react-redux";
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { getUser } from "../redux/userSlide.ts";
 
 export function Fondos() {
   const [funds, setFunds] = useState([]);
@@ -58,6 +59,7 @@ export function Fondos() {
         setAlertMessage(response?.data?.mensaje);
         setAlertSeverity('success');  // Alerta de éxito
         setOpenAlert(true);
+        getUsers()
       })
       .catch((error) => {
         const messageError = error.response.data?.detail ? error.response.data?.detail : error.response.data?.mensaje
@@ -65,13 +67,24 @@ export function Fondos() {
         setAlertSeverity('error');  // Alerta de error
         setOpenAlert(true);
       });
-
-
   };
+
+  const getUsers = () => {
+    axios
+      .get(`http://127.0.0.1:8000/users/${isAuthenticated.user.id}`)
+      .then((response) => {
+        dispatch(getUser(response.data));
+        // return setFunds(response.data);
+      })
+      .catch((error) => {
+        setError(error.toString());
+      });
+  }
+
   return (
     <>
       <TableData arrayColums={columnsfunds} dataRow={funds} isLoading={true} title="Lista de Fondos"
-        onOpening={handleOpening} displayName="fondos"
+        onOpening={handleOpening} displayName="fondos" keyId="id"
       ></TableData>
       <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity={alertSeverity} sx={{ width: '100%' }}>

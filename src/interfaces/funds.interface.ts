@@ -1,5 +1,5 @@
 export interface Column {
-  id: 'name' | 'category' | 'minimum_amount' | 'actions' | 'idFondo' | 'nombreFondo' | 'fechaVinculación' | 'monto' | 'montoInicial' | 'estado';
+  id: 'historicoId' | 'name' | 'category' | 'minimum_amount' | 'actions' | 'idFondo' | 'nombreFondo' | 'fechaVinculación' | 'monto' | 'montoInicial' | 'estado';
   label: string;
   minWidth?: number;
   align?: 'right' | 'center';
@@ -24,7 +24,8 @@ export const columnsfunds: readonly Column[] = [
   }
 ];
 export const columnsHistory: readonly Column[] = [
-  { id: 'nombreFondo', label: 'Nombre', minWidth: 170 },
+  { id: 'historicoId', label: 'Id Fondo', minWidth: 170 },
+  { id: 'nombreFondo', label: 'Fondo', minWidth: 170 },
   {
     id: 'montoInicial',
     label: 'Monto Inicial',
@@ -42,16 +43,19 @@ export const columnsHistory: readonly Column[] = [
   }
 ];
 export const columnsHistory2: readonly Column[] = [
-  { id: 'nombreFondo', label: 'Nombre', minWidth: 170 },
+  { id: 'historicoId', label: 'Id Fondo', minWidth: 170 },
+  { id: 'nombreFondo', label: 'Fondo', minWidth: 170 },
   {
     id: 'montoInicial',
-    label: 'Monto Inicial',
+    label: 'Saldo',
     minWidth: 170,
     align: 'right',
     format: (value: number) => value.toLocaleString('en-US'),
   },
-  { id: 'fechaVinculación', label: 'Fecha Vinculación', minWidth: 200 },
-  { id: 'estado', label: 'Estado', minWidth: 80 }
+  {
+    id: 'fechaVinculación', label: 'Fecha', minWidth: 200, 
+  },
+  { id: 'estado', label: 'Acción', minWidth: 80 }
 ];
 export interface DataFunds {
   id: string,
@@ -68,5 +72,6 @@ export interface TableDataProps {
   ]
   onOpening: () => void,
   onCancel: () => void,
-  displayName?: string
+  displayName?: string,
+  keyId?: string
 }
