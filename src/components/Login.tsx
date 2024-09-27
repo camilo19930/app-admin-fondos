@@ -8,7 +8,7 @@ import { login } from '../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 export function Login() {
-  const [userslist, setUsers] = useState('');
+  const [userslist, setUsers] = useState<any[]>([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -35,7 +35,7 @@ export function Login() {
       return;
     }
     setError('');
-    const findUser = userslist.find(el => el.email === username);
+    const findUser = userslist?.find(el => el.email === username);
     if(findUser && (password === findUser.password)) {
       dispatch(login(findUser));
       navigate('/fondos'); 

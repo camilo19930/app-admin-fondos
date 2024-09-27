@@ -1,12 +1,12 @@
 export interface UserInterface {
     id?: string
-    name: string
-    email: string
-    telefono: string
-    fondo_actual: FondoActual[]
-    historico: Historico[]
-    password: string
-    saldo: number
+    name?: string
+    email?: string
+    telefono?: string
+    fondo_actual?: FondoActual[]
+    historico?: Historico[]
+    password?: string
+    saldo?: number
   }
   
   export interface FondoActual {

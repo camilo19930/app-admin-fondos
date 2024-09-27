@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1727472236860" clover="3.2.0">
+  <project timestamp="1727472236860" name="All files">
+    <metrics statements="13" coveredstatements="12" conditionals="5" coveredconditionals="3" methods="3" coveredmethods="3" elements="21" coveredelements="18" complexity="0" loc="13" ncloc="13" packages="1" files="1" classes="1"/>
+    <file name="Sidebar.tsx" path="C:\Users\USUARIO\OneDrive\Documentos\Mis_Repositorios\React\projects\app-admin-fondos\src\components\Sidebar.tsx">
+      <metrics statements="13" coveredstatements="12" conditionals="5" coveredconditionals="3" methods="3" coveredmethods="3"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="7" count="1" type="stmt"/>
+      <line num="8" count="1" type="stmt"/>
+      <line num="9" count="1" type="stmt"/>
+      <line num="10" count="2" type="stmt"/>
+      <line num="12" count="1" type="stmt"/>
+      <line num="13" count="1" type="cond" truecount="0" falsecount="1"/>
+      <line num="14" count="0" type="stmt"/>
+      <line num="17" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
