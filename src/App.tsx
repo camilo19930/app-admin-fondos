@@ -5,8 +5,11 @@ import { Navbar } from '../src/components/Navbar'
 import { Sidebar } from '../src/components/Sidebar'
 import { Login } from './components/Login';
 import { Fondos } from './pages/Fondos';
+import { Cancelaciones } from './pages/Cancelaciones';
+import { HistorialTransacciones } from './pages/HistorialTransacciones';
+import { Home } from './pages/Home';
 
-const Inicio = () => <div>Contenido de Inicio</div>;
+
 
 function App() {
   return (
@@ -17,9 +20,11 @@ function App() {
           <Sidebar />
           <div className="content">
             <Routes>
-              <Route path="/" element={<Inicio />} />
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/fondos" element={<Fondos />} />
+              <Route path="/cancelaciones" element={<Cancelaciones />} />
+              <Route path="/historial" element={<HistorialTransacciones />} />
             </Routes>
           </div>
         </div>
