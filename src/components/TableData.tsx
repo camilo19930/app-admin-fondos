@@ -11,13 +11,17 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { columns, columnsfunds, DataFunds, TableDataProps } from '../interfaces/funds.interface'; // Importando desde el archivo columns.ts
 
-export default function TableData({ arrayColums, dataRow, isLoading, title }: React.PropsWithChildren<TableDataProps>) {
+export default function TableData({ arrayColums, dataRow, isLoading, title,
+  onOpening, onCancel
+ }: React.PropsWithChildren<TableDataProps>) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [funds, setFunds] = useState(dataRow || []);
   const [error, setError] = useState(null);
+  
 
   useEffect(() => {
     setFunds(dataRow);  // Actualizamos los fondos cuando cambia dataRow
@@ -38,15 +42,6 @@ export default function TableData({ arrayColums, dataRow, isLoading, title }: Re
     setPage(0);
   };
 
-  const handleEdit = (row: any) => {
-    console.log('Editando', row);
-    // Aquí puedes implementar la lógica de edición
-  };
-
-  const handleDelete = (row: any) => {
-    console.log('Eliminando', row);
-    // Aquí puedes implementar la lógica de eliminación
-  };
   return (
     <>
       <h1>{title}</h1>
@@ -75,13 +70,14 @@ export default function TableData({ arrayColums, dataRow, isLoading, title }: Re
                       {arrayColums.map((column) => {
                         if (column.id === 'actions') {
                           return (
+                            
                             <TableCell key={column.id} align={column.align}>
-                              <EditIcon
-                                onClick={() => handleEdit(row)}
+                              <AddCircleIcon
+                                onClick={() => onOpening(row)}
                                 style={{ cursor: 'pointer', marginRight: 10 }}
                               />
                               <DeleteIcon
-                                onClick={() => handleDelete(row)}
+                                onClick={() => onCancel(row)}
                                 style={{ cursor: 'pointer' }}
                               />
                             </TableCell>

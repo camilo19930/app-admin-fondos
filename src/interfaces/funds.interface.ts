@@ -74,4 +74,6 @@ export interface Column {
     title?: string;  // Un título opcional
     actions?: [
     ]
+    onOpening: () => void, 
+    onCancel: () => void 
   }

@@ -1,22 +1,47 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './../styles/Login.css'; // Archivo de estilo para el login
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../redux/userSlide';
+import { login } from '../redux/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
+  const [userslist, setUsers] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get(`http://127.0.0.1:8000/users`)
+      .then((response) => {
+        dispatch(getUser(response.data));
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        setError(error.toString());
+      });
+    }, []);   
+
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    // Validación simple
     if (!username || !password) {
       setError('Por favor completa ambos campos');
       return;
     }
     setError('');
-    // Llamada a la función onLogin si está definida (puedes integrarla con tu backend más tarde)
-    // onLogin(username, password);
+    const findUser = userslist.find(el => el.email === username);
+    if(findUser && (password === findUser.password)) {
+      dispatch(login(findUser));
+      navigate('/fondos'); 
+    } else {
+      setError('Por favor valide el correo y cantraseña');
+    }
   };
 
   return (

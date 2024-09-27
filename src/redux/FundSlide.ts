@@ -1,25 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    name: '',
-    username: '',
-    email: ''
-}
+    funds: [],
+};
 
 export const fundSlice = createSlice({
     name: 'fund',
     initialState,
     reducers: {
         getFund: (state, action) => {
-            const {name, username, email} = action.payload;
-            state.name = name;
-            state.username = username;
-            state.email = email;
-        },
-        changeEmail: (state, action) => {
-            state.email = action.payload
+            state.funds = action.payload;  // Aquí solo guardamos los datos serializables
         }
     }
 })
-export const {getFund, changeEmail} = fundSlice.actions;
+export const { getFund } = fundSlice.actions;
 export default fundSlice.reducer;
