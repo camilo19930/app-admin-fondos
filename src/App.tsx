@@ -8,6 +8,7 @@ import { Fondos } from './pages/Fondos';
 import { Cancelaciones } from './pages/Cancelaciones';
 import { HistorialTransacciones } from './pages/HistorialTransacciones';
 import { Home } from './pages/Home';
+import { Registrarse } from './pages/Registrarse';
 
 
 
@@ -22,6 +23,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/registro" element={<Registrarse />} />
               <Route path="/fondos" element={<Fondos />} />
               <Route path="/cancelaciones" element={<Cancelaciones />} />
               <Route path="/historial" element={<HistorialTransacciones />} />

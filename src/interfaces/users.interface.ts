@@ -1,5 +1,5 @@
-export interface Root {
-    id: string
+export interface UserInterface {
+    id?: string
     name: string
     email: string
     telefono: string

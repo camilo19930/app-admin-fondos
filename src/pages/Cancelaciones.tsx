@@ -45,7 +45,7 @@ export function Cancelaciones() {
     const handleCancel = (row: any) => {
 
         const data = {
-            idFondo: row?.idFondo,
+            historicoId: row?.historicoId,
         }
         const url = `http://127.0.0.1:8000/transaction/cancelar_fondo/${isAuthenticated.user?.id}`
 

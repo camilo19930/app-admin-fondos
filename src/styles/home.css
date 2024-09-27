@@ -1,0 +1,12 @@
+.home-container {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+.list-item {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}

@@ -15,7 +15,7 @@ export function Navbar() {
     const isAuthenticated = useSelector((state: any) => state.auth);
 
     useEffect(() => {
-        setEmail(isAuthenticated?.user?.email)
+        setEmail(isAuthenticated?.user?.name)
         setLogo(isAuthenticated?.user ? activateLogo : reactLogo)
     }, [isAuthenticated])
 
@@ -26,7 +26,7 @@ export function Navbar() {
     }
     return (
         <nav className="navbar">
-            <h1>Mi Aplicación</h1>
+            <h1>Administración de Fondos</h1>
             <div className="user-icon">
                 <img src={logo} className="logo react" alt="React logo" />
                 <p>{email}</p>

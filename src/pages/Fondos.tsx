@@ -60,7 +60,8 @@ export function Fondos() {
         setOpenAlert(true);
       })
       .catch((error) => {
-        setAlertMessage('Error al intentar suscribirse al fondo.');
+        const messageError = error.response.data?.detail ? error.response.data?.detail : error.response.data?.mensaje
+        setAlertMessage(messageError);
         setAlertSeverity('error');  // Alerta de error
         setOpenAlert(true);
       });
