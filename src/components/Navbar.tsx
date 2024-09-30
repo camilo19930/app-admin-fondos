@@ -1,6 +1,8 @@
 import './../styles/Nabvar.css';
-import reactLogo from './../assets/avatar-deactive.svg'; // Asegúrate de que la ruta sea correcta
-import activateLogo from './../assets/avatar-active.svg'; // Asegúrate de que la ruta sea correcta
+import reactLogo from './../assets/avatar-deactive.svg';
+import activateLogo from './../assets/avatar-active.svg';
+import btgLogo from './../assets/btg-logo.png';
+import btgLogo2 from './../assets/btg-logo.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { login } from '../redux/authSlice';
@@ -36,16 +38,16 @@ export function Navbar() {
         setEmail('');
         navigate('/login');
     }
-    const formatCurrency = (value:any) => {
-        return new Intl.NumberFormat('es-CO', { 
-            style: 'currency', 
-            currency: 'COP' 
+    const formatCurrency = (value: any) => {
+        return new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'COP'
         }).format(value);
     }
 
     return (
         <nav className="navbar">
-            <h1>Administración de Fondos</h1>
+            <img src={btgLogo} className="btg-logo" alt="BTG logo" />
             <div className="user-icon">
                 <img src={logo} className="logo react" alt="React logo" />
                 <p>{email}</p>

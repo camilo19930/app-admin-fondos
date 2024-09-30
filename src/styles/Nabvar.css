@@ -49,3 +49,7 @@
   margin-top: 5px;
   margin-left: 10px;
 }
+.btg-logo {
+  height: 50px; /* Ajusta el tamaño de la imagen */
+  margin-right: auto; /* Esto moverá la imagen completamente a la izquierda */
+}
