@@ -1,6 +1,6 @@
 import './../styles/Nabvar.css';
-import reactLogo from './../assets/avatar-deactive.png'; // Asegúrate de que la ruta sea correcta
-import activateLogo from './../assets/avatar-active.png'; // Asegúrate de que la ruta sea correcta
+import reactLogo from './../assets/avatar-deactive.svg'; // Asegúrate de que la ruta sea correcta
+import activateLogo from './../assets/avatar-active.svg'; // Asegúrate de que la ruta sea correcta
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { login } from '../redux/authSlice';
@@ -36,6 +36,12 @@ export function Navbar() {
         setEmail('');
         navigate('/login');
     }
+    const formatCurrency = (value:any) => {
+        return new Intl.NumberFormat('es-CO', { 
+            style: 'currency', 
+            currency: 'COP' 
+        }).format(value);
+    }
 
     return (
         <nav className="navbar">
@@ -46,7 +52,7 @@ export function Navbar() {
                 {isAuthenticated.user ? (
                     <>
                         <button onClick={handleSession}>{titleSession}</button>
-                        <p className="saldo-text">Saldo: {saldo}</p>
+                        <p className="saldo-text">Saldo: {formatCurrency(saldo)}</p>
                     </>
                 ) : null}
             </div>

@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { getUser } from "../redux/userSlide";
-import TableData from "../components/TableData";
 import { Alert, Snackbar } from "@mui/material";
+import { TableData } from "../components/TableData";
 
 export function HistorialTransacciones() {
-
+    const apiUrl = import.meta.env.VITE_APP_API_URL;
     const [usersList, setUsersList] = useState([]);
     const [openAlert, setOpenAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
@@ -23,7 +23,7 @@ export function HistorialTransacciones() {
     }, []);
     const getUsers = () => {
         axios
-            .get('http://127.0.0.1:8000/users')
+            .get(`${apiUrl}/users`)
             .then((response) => {
                 dispatch(getUser(response.data));
                 return setUsersList(response.data);

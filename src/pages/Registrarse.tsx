@@ -6,6 +6,7 @@ import { UserInterface } from "../interfaces/users.interface";
 import './../styles/registro.css';
 
 export function Registrarse() {
+    const apiUrl = import.meta.env.VITE_APP_API_URL;
     const [username, setUsername] = useState('');
     const [useremail, setUseremail] = useState('');
     const [usertel, setUsertel] = useState('');
@@ -29,7 +30,7 @@ export function Registrarse() {
             saldo: parseFloat(usersaldo) || 0
         };
         
-        const url = `http://127.0.0.1:8000/users`;
+        const url = `${apiUrl}/users`;
 
         axios.post(url, data)
             .then((response) => {

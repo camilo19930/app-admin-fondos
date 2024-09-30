@@ -15,13 +15,12 @@ import Tooltip from '@mui/material/Tooltip';
 import TextField from '@mui/material/TextField';
 import { columns, columnsfunds, DataFunds, TableDataProps } from '../interfaces/funds.interface'; // Importando desde el archivo columns.ts
 
-export default function TableData({ arrayColums, dataRow, isLoading, title,
+export function TableData({ arrayColums, dataRow, isLoading, title,
   onOpening, displayName, keyId
 }: React.PropsWithChildren<TableDataProps>) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [funds, setFunds] = useState(dataRow || []);
-  const [error, setError] = useState(null);
 
   // Estado local para almacenar los valores editados
   const [editedValue, setEditedValue] = useState({});
@@ -29,10 +28,6 @@ export default function TableData({ arrayColums, dataRow, isLoading, title,
   useEffect(() => {
     setFunds(dataRow);
   }, [dataRow]);
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -76,63 +71,59 @@ export default function TableData({ arrayColums, dataRow, isLoading, title,
                 )}
 
                 {/* Columna de acciones */}
-                {displayName !== 'historial' ? <TableCell>Acciones</TableCell> : null }
-                
+                {displayName !== 'historial' ? <TableCell>Acciones</TableCell> : null}
+
               </TableRow>
             </TableHead>
             <TableBody>
               {funds
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row: DataFunds) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row[keyId]}>
-                      {arrayColums.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-
-                      {/* Si estamos en la vista de fondos, mostramos el campo editable */}
-                      {displayName === 'fondos' && (
-                        <TableCell>
-                          <TextField
-                            value={editedValue[row.id] || ''}
-                            onChange={(e) => handleEditChange(e, row.id)}
-                            placeholder="Editar valor"
-                          />
+                .map((row: DataFunds, rowIndex: number) => (
+                  // Clave única para cada fila basada en 'row[keyId]' o el índice como respaldo
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row[keyId] || rowIndex}>
+                    {arrayColums.map((column, colIndex: number) => {
+                      const value = row[column.id];
+                      return (
+                        // Clave única para cada celda
+                        <TableCell key={`${column.id}-${row[keyId] || rowIndex}-${colIndex}`} align={column.align}>
+                          {column.format && typeof value === 'number' ? column.format(value) : value}
                         </TableCell>
-                      )}
+                      );
+                    })}
 
-                      {/* Columna de acciones */}
-                      {
-                        displayName === 'historial' ? null :
-                          <TableCell>
-                            {displayName !== 'cancelaciones' ? (
-                              <Tooltip title="Suscribirse a Fondo" arrow>
-                                <AddCircleIcon
-                                  onClick={() => onOpening(row, editedValue)} // Llamamos a la función existente sin cambios
-                                  style={{ cursor: 'pointer', marginRight: 10 }}
-                                />
-                              </Tooltip>
-                            ) : (
-                              <Tooltip title="Cancelar Fondo" arrow>
-                                <CancelIcon
-                                  onClick={() => onOpening(row)} // Llamamos a la función existente sin cambios
-                                  style={{ cursor: 'pointer', marginRight: 10 }}
-                                />
-                              </Tooltip>
-                            )}
-                          </TableCell>
-                      }
+                    {/* Si estamos en la vista de fondos, mostramos el campo editable */}
+                    {displayName === 'fondos' && (
+                      <TableCell key={`edit-${row[keyId] || rowIndex}`}>
+                        <TextField
+                          value={editedValue[row.id] || ''}
+                          onChange={(e) => handleEditChange(e, row.id)}
+                          placeholder="Editar valor"
+                        />
+                      </TableCell>
+                    )}
 
-                    </TableRow>
-                  );
-                })}
+                    {/* Columna de acciones */}
+                    {displayName !== 'historial' && (
+                      <TableCell key={`action-${row[keyId] || rowIndex}`}>
+                        {displayName !== 'cancelaciones' ? (
+                          <Tooltip title="Suscribirse a Fondo" arrow>
+                            <AddCircleIcon
+                              onClick={() => onOpening(row, editedValue)}
+                              style={{ cursor: 'pointer', marginRight: 10 }}
+                            />
+                          </Tooltip>
+                        ) : (
+                          <Tooltip title="Cancelar Fondo" arrow>
+                            <CancelIcon
+                              onClick={() => onOpening(row)}
+                              style={{ cursor: 'pointer', marginRight: 10 }}
+                            />
+                          </Tooltip>
+                        )}
+                      </TableCell>
+                    )}
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

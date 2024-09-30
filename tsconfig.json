@@ -12,5 +12,6 @@
     "target": "es6",
     "types": ["jest", "@testing-library/jest-dom", "node", "redux"]
     // Otras opciones que ya tienes configuradas
-  }
+  },
+  "files": ["globals.d.ts"]
 }

@@ -14,10 +14,11 @@ export function Login() {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_APP_API_URL;
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:8000/users`)
+      .get(`${apiUrl}/users`)
       .then((response) => {
         dispatch(getUser(response.data));
         setUsers(response.data);

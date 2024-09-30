@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import TableData from "../components/TableData.tsx";
 import { columnsfunds } from "../interfaces/funds.interface.ts";
 import { useDispatch } from "react-redux";
 import { getFund } from "../redux/FundSlide.ts";
@@ -8,8 +7,10 @@ import { useSelector } from "react-redux";
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { getUser } from "../redux/userSlide.ts";
+import { TableData } from "../components/TableData.tsx";
 
 export function Fondos() {
+  const apiUrl = import.meta.env.VITE_APP_API_URL;
   const [funds, setFunds] = useState([]);
   const [error, setError] = useState(null);
   const [openAlert, setOpenAlert] = useState(false);
@@ -26,8 +27,8 @@ export function Fondos() {
 
   const getFondos = () => {
     axios
-      .get('http://127.0.0.1:8000/funds')
-      .then((response) => {
+      .get(`${apiUrl}/funds`)
+      .then((response:any) => {
         dispatch(getFund(response.data));
         return setFunds(response.data);
       })
@@ -43,7 +44,8 @@ export function Fondos() {
   };
   const handleOpening = (row: any, editedValue:any) => {
     const valorInicial = editedValue[row.id]
-    const data = {
+    if (valorInicial) {
+        const data = {
       id: row?.id,
       name: row?.name,
       category: row?.category,
@@ -51,27 +53,33 @@ export function Fondos() {
       // initial_amount: isAuthenticated.user?.saldo ? isAuthenticated.user?.saldo : 0
       initial_amount: typeof valorInicial !== 'number' ? Number(valorInicial) : valorInicial
     }
-    const url = `http://127.0.0.1:8000/transaction/fondo_actual/${isAuthenticated.user?.id}`
+    const url = `${apiUrl}/transaction/fondo_actual/${isAuthenticated.user?.id}`
 
     axios.put(url, data)
-      .then((response) => {
+      .then((response: any) => {
         getFondos();
         setAlertMessage(response?.data?.mensaje);
-        setAlertSeverity('success');  // Alerta de éxito
+        setAlertSeverity('success'); 
         setOpenAlert(true);
         getUsers()
       })
       .catch((error) => {
         const messageError = error.response.data?.detail ? error.response.data?.detail : error.response.data?.mensaje
         setAlertMessage(messageError);
-        setAlertSeverity('error');  // Alerta de error
+        setAlertSeverity('error');
         setOpenAlert(true);
       });
+    } else {
+      setAlertMessage('Debe poner un valor inicial');
+        setAlertSeverity('error');
+        setOpenAlert(true);
+    }
+  
   };
 
   const getUsers = () => {
     axios
-      .get(`http://127.0.0.1:8000/users/${isAuthenticated.user.id}`)
+      .get(`${apiUrl}/users/${isAuthenticated.user.id}`)
       .then((response) => {
         dispatch(getUser(response.data));
         // return setFunds(response.data);

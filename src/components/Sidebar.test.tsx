@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';  // Asegúrate de tener esta línea
+import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Sidebar } from './Sidebar';
-import { MemoryRouter } from 'react-router-dom';  // Importa MemoryRouter para los tests
+import { MemoryRouter } from 'react-router-dom';
 
 const mockStore = configureStore([]);
 let store: any;
@@ -11,7 +11,7 @@ let store: any;
 describe('Sidebar component', () => {
   beforeEach(() => {
     store = mockStore({
-      auth: { user: null }  // Usuario no autenticado
+      auth: { user: null }
     });
   });
 

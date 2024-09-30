@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { columnsHistory } from "../interfaces/funds.interface";
-import TableData from "../components/TableData";
 import { Alert, Snackbar } from "@mui/material";
 import axios from "axios";
 import { getUser } from "../redux/userSlide";
+import { TableData } from "../components/TableData";
 
 export function Cancelaciones() {
+    const apiUrl = import.meta.env.VITE_APP_API_URL;
     const [usersList, setUsersList] = useState([]);
     const [openAlert, setOpenAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
@@ -31,8 +32,8 @@ export function Cancelaciones() {
 
     const getUsers = () => {
         axios
-            .get('http://127.0.0.1:8000/users')
-            .then((response) => {
+            .get(`${apiUrl}/users`)
+            .then((response: any) => {
                 dispatch(getUser(response.data));
                 return setUsersList(response.data);
             })
@@ -47,10 +48,10 @@ export function Cancelaciones() {
         const data = {
             historicoId: row?.historicoId,
         }
-        const url = `http://127.0.0.1:8000/transaction/cancelar_fondo/${isAuthenticated.user?.id}`
+        const url = `${apiUrl}/transaction/cancelar_fondo/${isAuthenticated.user?.id}`
 
         axios.put(url, data)
-            .then((response) => {
+            .then((response: any) => {
                   getUsers();
                 setAlertMessage(response?.data?.mensaje);
                 setAlertSeverity('success');  // Alerta de éxito

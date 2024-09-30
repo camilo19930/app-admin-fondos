@@ -71,7 +71,7 @@ export interface TableDataProps {
   actions?: [
   ]
   onOpening: () => void,
-  onCancel: () => void,
+  onCancel?: () => void,
   displayName?: string,
   keyId?: string
 }
