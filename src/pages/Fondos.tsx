@@ -4,8 +4,6 @@ import { columnsfunds } from "../interfaces/funds.interface.ts";
 import { useDispatch } from "react-redux";
 import { getFund } from "../redux/FundSlide.ts";
 import { useSelector } from "react-redux";
-import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 import { getUser } from "../redux/userSlide.ts";
 import { TableData } from "../components/TableData.tsx";
 
@@ -29,7 +27,7 @@ export function Fondos() {
   const getFondos = () => {
     axios
       .get(`${apiUrl}/funds`)
-      .then((response:any) => {
+      .then((response: any) => {
         dispatch(getFund(response.data));
         return setFunds(response.data);
       })
@@ -38,46 +36,39 @@ export function Fondos() {
         console.log(error)
       });
   }
-  const handleCloseAlert = (event?: React.SyntheticEvent, reason?: string) => {
-    console.log(event)
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpenAlert(false); 
-  };
-  const handleOpening = (row: any, editedValue:any) => {
+  const handleOpening = (row: any, editedValue: any) => {
     const valorInicial = editedValue[row.id]
     if (valorInicial) {
-        const data = {
-      id: row?.id,
-      name: row?.name,
-      category: row?.category,
-      minimum_amount: row?.minimum_amount,
-      // initial_amount: isAuthenticated.user?.saldo ? isAuthenticated.user?.saldo : 0
-      initial_amount: typeof valorInicial !== 'number' ? Number(valorInicial) : valorInicial
-    }
-    const url = `${apiUrl}/transaction/fondo_actual/${isAuthenticated.user?.id}`
+      const data = {
+        id: row?.id,
+        name: row?.name,
+        category: row?.category,
+        minimum_amount: row?.minimum_amount,
+        // initial_amount: isAuthenticated.user?.saldo ? isAuthenticated.user?.saldo : 0
+        initial_amount: typeof valorInicial !== 'number' ? Number(valorInicial) : valorInicial
+      }
+      const url = `${apiUrl}/transaction/fondo_actual/${isAuthenticated.user?.id}`
 
-    axios.put(url, data)
-      .then((response: any) => {
-        getFondos();
-        setAlertMessage(response?.data?.mensaje);
-        setAlertSeverity('success'); 
-        setOpenAlert(true);
-        getUsers()
-      })
-      .catch((error) => {
-        const messageError = error.response.data?.detail ? error.response.data?.detail : error.response.data?.mensaje
-        setAlertMessage(messageError);
-        setAlertSeverity('error');
-        setOpenAlert(true);
-      });
+      axios.put(url, data)
+        .then((response: any) => {
+          getFondos();
+          setAlertMessage(response?.data?.mensaje);
+          setAlertSeverity('success');
+          setOpenAlert(true);
+          getUsers()
+        })
+        .catch((error) => {
+          const messageError = error.response.data?.detail ? error.response.data?.detail : error.response.data?.mensaje
+          setAlertMessage(messageError);
+          setAlertSeverity('error');
+          setOpenAlert(true);
+        });
     } else {
       setAlertMessage('Debe poner un valor inicial');
-        setAlertSeverity('error');
-        setOpenAlert(true);
+      setAlertSeverity('error');
+      setOpenAlert(true);
     }
-  
+
   };
 
   const getUsers = () => {
@@ -97,11 +88,11 @@ export function Fondos() {
       <TableData arrayColums={columnsfunds} dataRow={funds} isLoading={true} title="Lista de Fondos"
         onOpening={handleOpening} displayName="fondos" keyId="id"
       ></TableData>
-      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity={alertSeverity} sx={{ width: '100%' }}>
+      {openAlert && (
+        <div className={`alert ${alertSeverity}`}>
           {alertMessage}
-        </Alert>
-      </Snackbar>
+        </div>
+      )}
     </>
   )
 }

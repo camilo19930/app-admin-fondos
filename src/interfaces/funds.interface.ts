@@ -71,7 +71,7 @@ export interface TableDataProps {
   actions?: [
   ]
   // @ts-ignore
-  onOpening: () => void,
+  onOpening?: (row?:any, editValiue?:any) => any,
   onCancel?: () => void,
   displayName?: string,
   keyId?: string

@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { getUser } from "../redux/userSlide";
-import { Alert, Snackbar } from "@mui/material";
 import { TableData } from "../components/TableData";
 
 export function HistorialTransacciones() {
@@ -24,7 +23,7 @@ export function HistorialTransacciones() {
     const getUsers = () => {
         axios
             .get(`${apiUrl}/users`)
-            .then((response:any) => {
+            .then((response: any) => {
                 dispatch(getUser(response.data));
                 return setUsersList(response.data);
             })
@@ -34,14 +33,6 @@ export function HistorialTransacciones() {
                 setOpenAlert(true);
             });
     }
-    const handleCloseAlert = (event?: React.SyntheticEvent, reason?: string) => {
-    // const handleCloseAlert = (event: Event | SyntheticEvent<any, Event>, reason: SnackbarCloseReason) => {
-        console.log(event)
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpenAlert(false);
-    };
     const enListDate = (data: any) => {
         const fondosActuales = data.flatMap((el: any) => el.historico);
         const modifiedHistorico = fondosActuales.map((fondo: any) => ({
@@ -50,19 +41,16 @@ export function HistorialTransacciones() {
         }));
         return modifiedHistorico;
     }
-
-
-
     return (
         <>
             <TableData arrayColums={columnsHistory2} dataRow={enListDate(usersList)}
                 isLoading={true} title="Historial Transacciones" displayName='historial' keyId="historicoId"
             ></TableData>
-            <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
-                <Alert onClose={handleCloseAlert} severity={alertSeverity} sx={{ width: '100%' }}>
+            {openAlert && (
+                <div className={`alert ${alertSeverity}`}>
                     {alertMessage}
-                </Alert>
-            </Snackbar>
+                </div>
+            )}
         </>
     )
 

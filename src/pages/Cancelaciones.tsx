@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { columnsHistory } from "../interfaces/funds.interface";
-import { Alert, Snackbar } from "@mui/material";
 import axios from "axios";
 import { getUser } from "../redux/userSlide";
 import { TableData } from "../components/TableData";
@@ -23,14 +22,6 @@ export function Cancelaciones() {
 
     }, []);
 
-    const handleCloseAlert = (event?: React.SyntheticEvent, reason?: string) => {
-        console.log(event)
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpenAlert(false);
-    };
-
     const getUsers = () => {
         axios
             .get(`${apiUrl}/users`)
@@ -39,13 +30,12 @@ export function Cancelaciones() {
                 return setUsersList(response.data);
             })
             .catch(() => {
-                setAlertMessage('Error al intentar cargar los datos.', );
+                setAlertMessage('Error al intentar cargar los datos.',);
                 setAlertSeverity('error');  // Alerta de error
                 setOpenAlert(true);
             });
     }
-    const handleCancel = (row: any) => {
-
+    const handleCancel = (row: any): any => {
         const data = {
             historicoId: row?.historicoId,
         }
@@ -53,7 +43,7 @@ export function Cancelaciones() {
 
         axios.put(url, data)
             .then((response: any) => {
-                  getUsers();
+                getUsers();
                 setAlertMessage(response?.data?.mensaje);
                 setAlertSeverity('success');  // Alerta de éxito
                 setOpenAlert(true);
@@ -78,11 +68,11 @@ export function Cancelaciones() {
             <TableData arrayColums={columnsHistory} dataRow={enListDate(usersList)} isLoading={true} title="Lista de Fondos Actuales / Cancelaciones"
                 onOpening={handleCancel} displayName='cancelaciones' keyId="historicoId"
             ></TableData>
-            <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
-                <Alert onClose={handleCloseAlert} severity={alertSeverity} sx={{ width: '100%' }}>
+            {openAlert && (
+                <div className={`alert ${alertSeverity}`}>
                     {alertMessage}
-                </Alert>
-            </Snackbar>
+                </div>
+            )}
         </>
     )
 }
