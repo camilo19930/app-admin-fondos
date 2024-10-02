@@ -1,14 +1,12 @@
 import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import { columnsfunds } from "../interfaces/funds.interface.ts";
 import { useDispatch } from "react-redux";
-import { getFund } from "../redux/FundSlide.ts";
 import { useSelector } from "react-redux";
-import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
-import { getUser } from "../redux/userSlide.ts";
-import { TableData } from "../components/TableData.tsx";
+import { getFund } from "../redux/FundSlide";
+import { getUser } from "../redux/userSlide";
+import { columnsfunds } from "../interfaces/funds.interface";
+import { TableData } from "../components/TableData";
 export function Fondos() {
     const apiUrl = import.meta.env.VITE_APP_API_URL;
     const [funds, setFunds] = useState([]);
@@ -33,13 +31,6 @@ export function Fondos() {
             setError(error.toString());
             console.log(error);
         });
-    };
-    const handleCloseAlert = (event, reason) => {
-        console.log(event);
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpenAlert(false);
     };
     const handleOpening = (row, editedValue) => {
         const valorInicial = editedValue[row.id];
@@ -85,5 +76,5 @@ export function Fondos() {
             setError(error.toString());
         });
     };
-    return (_jsxs(_Fragment, { children: [_jsx(TableData, { arrayColums: columnsfunds, dataRow: funds, isLoading: true, title: "Lista de Fondos", onOpening: handleOpening, displayName: "fondos", keyId: "id" }), _jsx(Snackbar, { open: openAlert, autoHideDuration: 6000, onClose: handleCloseAlert, children: _jsx(Alert, { onClose: handleCloseAlert, severity: alertSeverity, sx: { width: '100%' }, children: alertMessage }) })] }));
+    return (_jsxs(_Fragment, { children: [_jsx(TableData, { arrayColums: columnsfunds, dataRow: funds, isLoading: true, title: "Lista de Fondos", onOpening: handleOpening, displayName: "fondos", keyId: "id" }), openAlert && (_jsx("div", { className: `alert ${alertSeverity}`, children: alertMessage }))] }));
 }

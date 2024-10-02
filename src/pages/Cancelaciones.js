@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { columnsHistory } from "../interfaces/funds.interface";
-import { Alert, Snackbar } from "@mui/material";
 import axios from "axios";
 import { getUser } from "../redux/userSlide";
 import { TableData } from "../components/TableData";
@@ -20,13 +19,6 @@ export function Cancelaciones() {
             getUsers();
         }
     }, []);
-    const handleCloseAlert = (event, reason) => {
-        console.log(event);
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpenAlert(false);
-    };
     const getUsers = () => {
         axios
             .get(`${apiUrl}/users`)
@@ -66,5 +58,5 @@ export function Cancelaciones() {
         }));
         return modifiedFondosActuales;
     };
-    return (_jsxs(_Fragment, { children: [_jsx(TableData, { arrayColums: columnsHistory, dataRow: enListDate(usersList), isLoading: true, title: "Lista de Fondos Actuales / Cancelaciones", onOpening: handleCancel, displayName: 'cancelaciones', keyId: "historicoId" }), _jsx(Snackbar, { open: openAlert, autoHideDuration: 6000, onClose: handleCloseAlert, children: _jsx(Alert, { onClose: handleCloseAlert, severity: alertSeverity, sx: { width: '100%' }, children: alertMessage }) })] }));
+    return (_jsxs(_Fragment, { children: [_jsx(TableData, { arrayColums: columnsHistory, dataRow: enListDate(usersList), isLoading: true, title: "Lista de Fondos Actuales / Cancelaciones", onOpening: handleCancel, displayName: 'cancelaciones', keyId: "historicoId" }), openAlert && (_jsx("div", { className: `alert ${alertSeverity}`, children: alertMessage }))] }));
 }

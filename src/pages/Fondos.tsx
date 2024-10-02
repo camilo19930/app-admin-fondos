@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import { columnsfunds } from "../interfaces/funds.interface.ts";
 import { useDispatch } from "react-redux";
-import { getFund } from "../redux/FundSlide.ts";
 import { useSelector } from "react-redux";
-import { getUser } from "../redux/userSlide.ts";
-import { TableData } from "../components/TableData.tsx";
+import { getFund } from "../redux/FundSlide";
+import { getUser } from "../redux/userSlide";
+import { columnsfunds } from "../interfaces/funds.interface";
+import { TableData } from "../components/TableData";
 
 export function Fondos() {
   const apiUrl = import.meta.env.VITE_APP_API_URL;

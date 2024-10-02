@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { getUser } from "../redux/userSlide";
-import { Alert, Snackbar } from "@mui/material";
 import { TableData } from "../components/TableData";
 export function HistorialTransacciones() {
     const apiUrl = import.meta.env.VITE_APP_API_URL;
@@ -33,14 +32,6 @@ export function HistorialTransacciones() {
             setOpenAlert(true);
         });
     };
-    const handleCloseAlert = (event, reason) => {
-        // const handleCloseAlert = (event: Event | SyntheticEvent<any, Event>, reason: SnackbarCloseReason) => {
-        console.log(event);
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpenAlert(false);
-    };
     const enListDate = (data) => {
         const fondosActuales = data.flatMap((el) => el.historico);
         const modifiedHistorico = fondosActuales.map((fondo) => ({
@@ -49,5 +40,5 @@ export function HistorialTransacciones() {
         }));
         return modifiedHistorico;
     };
-    return (_jsxs(_Fragment, { children: [_jsx(TableData, { arrayColums: columnsHistory2, dataRow: enListDate(usersList), isLoading: true, title: "Historial Transacciones", displayName: 'historial', keyId: "historicoId" }), _jsx(Snackbar, { open: openAlert, autoHideDuration: 6000, onClose: handleCloseAlert, children: _jsx(Alert, { onClose: handleCloseAlert, severity: alertSeverity, sx: { width: '100%' }, children: alertMessage }) })] }));
+    return (_jsxs(_Fragment, { children: [_jsx(TableData, { arrayColums: columnsHistory2, dataRow: enListDate(usersList), isLoading: true, title: "Historial Transacciones", displayName: 'historial', keyId: "historicoId" }), openAlert && (_jsx("div", { className: `alert ${alertSeverity}`, children: alertMessage }))] }));
 }

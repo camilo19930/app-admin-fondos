@@ -5,10 +5,11 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
+    "moduleResolution": "nodenext",
     "jsx": "react-jsx", // Para React 17+ usa "react-jsx" o "react" para versiones anteriores
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "module": "esnext",
+    "module": "nodeNext",
     "target": "es6",
     "types": ["jest", "@testing-library/jest-dom", "node", "redux"]
     // Otras opciones que ya tienes configuradas
