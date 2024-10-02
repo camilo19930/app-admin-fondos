@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { columnsHistory, columnsHistory2 } from "../interfaces/funds.interface";
+import { columnsHistory2 } from "../interfaces/funds.interface";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -24,17 +24,19 @@ export function HistorialTransacciones() {
     const getUsers = () => {
         axios
             .get(`${apiUrl}/users`)
-            .then((response) => {
+            .then((response:any) => {
                 dispatch(getUser(response.data));
                 return setUsersList(response.data);
             })
-            .catch((error) => {
+            .catch(() => {
                 setAlertMessage('Error al intentar cargar los datos.');
                 setAlertSeverity('error');  // Alerta de error
                 setOpenAlert(true);
             });
     }
     const handleCloseAlert = (event?: React.SyntheticEvent, reason?: string) => {
+    // const handleCloseAlert = (event: Event | SyntheticEvent<any, Event>, reason: SnackbarCloseReason) => {
+        console.log(event)
         if (reason === 'clickaway') {
             return;
         }

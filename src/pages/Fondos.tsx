@@ -12,6 +12,7 @@ import { TableData } from "../components/TableData.tsx";
 export function Fondos() {
   const apiUrl = import.meta.env.VITE_APP_API_URL;
   const [funds, setFunds] = useState([]);
+  // @ts-ignore
   const [error, setError] = useState(null);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -34,9 +35,11 @@ export function Fondos() {
       })
       .catch((error) => {
         setError(error.toString());
+        console.log(error)
       });
   }
   const handleCloseAlert = (event?: React.SyntheticEvent, reason?: string) => {
+    console.log(event)
     if (reason === 'clickaway') {
       return;
     }

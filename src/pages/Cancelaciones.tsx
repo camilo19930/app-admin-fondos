@@ -24,6 +24,7 @@ export function Cancelaciones() {
     }, []);
 
     const handleCloseAlert = (event?: React.SyntheticEvent, reason?: string) => {
+        console.log(event)
         if (reason === 'clickaway') {
             return;
         }
@@ -37,8 +38,8 @@ export function Cancelaciones() {
                 dispatch(getUser(response.data));
                 return setUsersList(response.data);
             })
-            .catch((error) => {
-                setAlertMessage('Error al intentar cargar los datos.');
+            .catch(() => {
+                setAlertMessage('Error al intentar cargar los datos.', );
                 setAlertSeverity('error');  // Alerta de error
                 setOpenAlert(true);
             });
@@ -57,7 +58,7 @@ export function Cancelaciones() {
                 setAlertSeverity('success');  // Alerta de éxito
                 setOpenAlert(true);
             })
-            .catch((error) => {
+            .catch(() => {
                 setAlertMessage('Error al intentar suscribirse al fondo.');
                 setAlertSeverity('error');  // Alerta de error
                 setOpenAlert(true);

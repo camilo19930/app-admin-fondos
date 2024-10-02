@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './../styles/Login.css';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -19,7 +19,7 @@ export function Login() {
   useEffect(() => {
     axios
       .get(`${apiUrl}/users`)
-      .then((response) => {
+      .then((response: any) => {
         dispatch(getUser(response.data));
         setUsers(response.data);
       })

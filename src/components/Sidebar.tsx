@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
-import './../styles/Sidebar.css'; // Archivo para el estilo del sidebar
-import { useDispatch } from 'react-redux';
+import './../styles/Sidebar.css'; 
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 export function Sidebar() {
+  // @ts-ignore
   const [hiddenLink, setHiddenLink] = useState(true)
-  const dispatch = useDispatch();
   const isAuthenticated = useSelector((state: any) => state.auth);
 
   useEffect(() => {

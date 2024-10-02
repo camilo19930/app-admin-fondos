@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { UserInterface } from "../interfaces/users.interface";
 import './../styles/registro.css';
@@ -16,7 +15,6 @@ export function Registrarse() {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState<'success' | 'error'>('success');
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleCreate = () => {
@@ -33,7 +31,7 @@ export function Registrarse() {
         const url = `${apiUrl}/users`;
 
         axios.post(url, data)
-            .then((response) => {
+            .then((response:any) => {
                 setAlertMessage(`Usuario creado correctamente. ${response?.data?.id}`);
                 setAlertSeverity('success');  // Alerta de éxito
                 setOpenAlert(true);

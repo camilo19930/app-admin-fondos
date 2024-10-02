@@ -70,6 +70,7 @@ export interface TableDataProps {
   title?: string;  // Un título opcional
   actions?: [
   ]
+  // @ts-ignore
   onOpening: () => void,
   onCancel?: () => void,
   displayName?: string,

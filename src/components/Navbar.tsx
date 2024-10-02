@@ -2,14 +2,13 @@ import './../styles/Nabvar.css';
 import reactLogo from './../assets/avatar-deactive.svg';
 import activateLogo from './../assets/avatar-active.svg';
 import btgLogo from './../assets/btg-logo.png';
-import btgLogo2 from './../assets/btg-logo.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { login } from '../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 export function Navbar() {
-    const [titleSession, setTitleSession] = useState('Cerrar sesión');
+    const [titleSession] = useState('Cerrar sesión');
     const [logo, setLogo] = useState(reactLogo);
     const [email, setEmail] = useState('');
     const [saldo, setSaldo] = useState('');
