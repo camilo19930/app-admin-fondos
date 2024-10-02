@@ -38,10 +38,6 @@
   border-radius: 5px;
 }
 
-/* Usamos visibility para ocultar sin alterar la estructura del layout */
-.hidden {
-  visibility
-}
 
 .saldo-text {
   font-size: 12px;
