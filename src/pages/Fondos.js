@@ -1,14 +1,15 @@
 import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from "react";
-import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getFund } from "../redux/FundSlide";
 import { getUser } from "../redux/userSlide";
 import { columnsfunds } from "../interfaces/funds.interface";
 import { TableData } from "../components/TableData";
+import fundService from "../services/fundService";
+import transactionService from "../services/transactionService";
+import userService from "../services/userService";
 export function Fondos() {
-    const apiUrl = import.meta.env.VITE_APP_API_URL;
     const [funds, setFunds] = useState([]);
     // @ts-ignore
     const [error, setError] = useState(null);
@@ -20,16 +21,12 @@ export function Fondos() {
     useEffect(() => {
         getFondos();
     }, []);
-    const getFondos = () => {
-        axios
-            .get(`${apiUrl}/funds`)
-            .then((response) => {
+    const getFondos = async () => {
+        fundService.getAllFunds().then((response) => {
             dispatch(getFund(response.data));
             return setFunds(response.data);
-        })
-            .catch((error) => {
+        }).catch((error) => {
             setError(error.toString());
-            console.log(error);
         });
     };
     const handleOpening = (row, editedValue) => {
@@ -40,19 +37,15 @@ export function Fondos() {
                 name: row?.name,
                 category: row?.category,
                 minimum_amount: row?.minimum_amount,
-                // initial_amount: isAuthenticated.user?.saldo ? isAuthenticated.user?.saldo : 0
                 initial_amount: typeof valorInicial !== 'number' ? Number(valorInicial) : valorInicial
             };
-            const url = `${apiUrl}/transaction/fondo_actual/${isAuthenticated.user?.id}`;
-            axios.put(url, data)
-                .then((response) => {
+            transactionService.subscritionFund(isAuthenticated.user?.id, data).then((response) => {
                 getFondos();
                 setAlertMessage(response?.data?.mensaje);
                 setAlertSeverity('success');
                 setOpenAlert(true);
                 getUsers();
-            })
-                .catch((error) => {
+            }).catch((error) => {
                 const messageError = error.response.data?.detail ? error.response.data?.detail : error.response.data?.mensaje;
                 setAlertMessage(messageError);
                 setAlertSeverity('error');
@@ -66,13 +59,9 @@ export function Fondos() {
         }
     };
     const getUsers = () => {
-        axios
-            .get(`${apiUrl}/users/${isAuthenticated.user.id}`)
-            .then((response) => {
+        userService.getUsersById(isAuthenticated.user.id).then((response) => {
             dispatch(getUser(response.data));
-            // return setFunds(response.data);
-        })
-            .catch((error) => {
+        }).catch((error) => {
             setError(error.toString());
         });
     };

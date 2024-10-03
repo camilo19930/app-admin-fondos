@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getFund } from "../redux/FundSlide";
 import { getUser } from "../redux/userSlide";
 import { columnsfunds } from "../interfaces/funds.interface";
 import { TableData } from "../components/TableData";
+import fundService from "../services/fundService";
+import transactionService from "../services/transactionService";
+import userService from "../services/userService";
 
 export function Fondos() {
-  const apiUrl = import.meta.env.VITE_APP_API_URL;
   const [funds, setFunds] = useState([]);
   // @ts-ignore
   const [error, setError] = useState(null);
@@ -24,17 +25,13 @@ export function Fondos() {
     getFondos();
   }, []);
 
-  const getFondos = () => {
-    axios
-      .get(`${apiUrl}/funds`)
-      .then((response: any) => {
-        dispatch(getFund(response.data));
-        return setFunds(response.data);
-      })
-      .catch((error) => {
-        setError(error.toString());
-        console.log(error)
-      });
+  const getFondos = async () => {
+    fundService.getAllFunds().then((response: any) => {
+      dispatch(getFund(response.data));
+      return setFunds(response.data);
+    }).catch((error: any) => {
+      setError(error.toString());
+    })
   }
   const handleOpening = (row: any, editedValue: any) => {
     const valorInicial = editedValue[row.id]
@@ -44,25 +41,20 @@ export function Fondos() {
         name: row?.name,
         category: row?.category,
         minimum_amount: row?.minimum_amount,
-        // initial_amount: isAuthenticated.user?.saldo ? isAuthenticated.user?.saldo : 0
         initial_amount: typeof valorInicial !== 'number' ? Number(valorInicial) : valorInicial
       }
-      const url = `${apiUrl}/transaction/fondo_actual/${isAuthenticated.user?.id}`
-
-      axios.put(url, data)
-        .then((response: any) => {
-          getFondos();
-          setAlertMessage(response?.data?.mensaje);
-          setAlertSeverity('success');
-          setOpenAlert(true);
-          getUsers()
-        })
-        .catch((error) => {
-          const messageError = error.response.data?.detail ? error.response.data?.detail : error.response.data?.mensaje
-          setAlertMessage(messageError);
-          setAlertSeverity('error');
-          setOpenAlert(true);
-        });
+      transactionService.subscritionFund(isAuthenticated.user?.id, data).then((response: any) => {
+        getFondos();
+        setAlertMessage(response?.data?.mensaje);
+        setAlertSeverity('success');
+        setOpenAlert(true);
+        getUsers()
+      }).catch((error: any) => {
+        const messageError = error.response.data?.detail ? error.response.data?.detail : error.response.data?.mensaje
+        setAlertMessage(messageError);
+        setAlertSeverity('error');
+        setOpenAlert(true);
+      });
     } else {
       setAlertMessage('Debe poner un valor inicial');
       setAlertSeverity('error');
@@ -72,15 +64,11 @@ export function Fondos() {
   };
 
   const getUsers = () => {
-    axios
-      .get(`${apiUrl}/users/${isAuthenticated.user.id}`)
-      .then((response) => {
-        dispatch(getUser(response.data));
-        // return setFunds(response.data);
-      })
-      .catch((error) => {
-        setError(error.toString());
-      });
+    userService.getUsersById(isAuthenticated.user.id).then((response: any) => {
+      dispatch(getUser(response.data));
+    }).catch((error: any) => {
+      setError(error.toString());
+    })
   }
 
   return (

@@ -1,11 +1,10 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { UserInterface } from "../interfaces/users.interface";
 import './../styles/registro.css';
+import userService from "../services/userService";
 
 export function Registrarse() {
-    const apiUrl = import.meta.env.VITE_APP_API_URL;
     const [username, setUsername] = useState('');
     const [useremail, setUseremail] = useState('');
     const [usertel, setUsertel] = useState('');
@@ -27,24 +26,19 @@ export function Registrarse() {
             password: userpassword,
             saldo: parseFloat(usersaldo) || 0
         };
-        
-        const url = `${apiUrl}/users`;
-
-        axios.post(url, data)
-            .then((response:any) => {
-                setAlertMessage(`Usuario creado correctamente. ${response?.data?.id}`);
-                setAlertSeverity('success');  // Alerta de éxito
-                setOpenAlert(true);
-                setTimeout(() => {
-                    navigate('/login'); 
-                }, 1500);
-            })
-            .catch((error) => {
-                const messageError = error.response.data?.detail ? error.response.data?.detail : error.response.data?.mensaje;
-                setAlertMessage(messageError);
-                setAlertSeverity('error');  // Alerta de error
-                setOpenAlert(true);
-            });
+        userService.createUser(data).then((response: any) => {
+            setAlertMessage(`Usuario creado correctamente. ${response?.data?.id}`);
+            setAlertSeverity('success');
+            setOpenAlert(true);
+            setTimeout(() => {
+                navigate('/login');
+            }, 1500);
+        }).catch((error: any) => {
+            const messageError = error.response.data?.detail ? error.response.data?.detail : error.response.data?.mensaje;
+            setAlertMessage(messageError);
+            setAlertSeverity('error');
+            setOpenAlert(true);
+        })
     };
 
     return (

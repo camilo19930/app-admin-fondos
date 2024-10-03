@@ -3,11 +3,10 @@ import { useEffect, useState } from "react";
 import { columnsHistory2 } from "../interfaces/funds.interface";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import { getUser } from "../redux/userSlide";
 import { TableData } from "../components/TableData";
+import userService from "../services/userService";
 export function HistorialTransacciones() {
-    const apiUrl = import.meta.env.VITE_APP_API_URL;
     const [usersList, setUsersList] = useState([]);
     const [openAlert, setOpenAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
@@ -20,25 +19,27 @@ export function HistorialTransacciones() {
         }
     }, []);
     const getUsers = () => {
-        axios
-            .get(`${apiUrl}/users`)
-            .then((response) => {
+        userService.getUsersById(isAuthenticated.user.id).then((response) => {
             dispatch(getUser(response.data));
             return setUsersList(response.data);
-        })
-            .catch(() => {
+        }).catch(() => {
             setAlertMessage('Error al intentar cargar los datos.');
-            setAlertSeverity('error'); // Alerta de error
+            setAlertSeverity('error');
             setOpenAlert(true);
         });
     };
     const enListDate = (data) => {
-        const fondosActuales = data.flatMap((el) => el.historico);
-        const modifiedHistorico = fondosActuales.map((fondo) => ({
-            ...fondo,
-            estado: fondo.estado ? 'Apertura' : 'Cancelación',
-        }));
-        return modifiedHistorico;
+        if (data.length > 0) {
+            const fondosActuales = data.flatMap((el) => el.historico);
+            const modifiedHistorico = fondosActuales.map((fondo) => ({
+                ...fondo,
+                estado: fondo?.estado ? 'Apertura' : 'Cancelación',
+            }));
+            return modifiedHistorico;
+        }
+        else {
+            return [];
+        }
     };
-    return (_jsxs(_Fragment, { children: [_jsx(TableData, { arrayColums: columnsHistory2, dataRow: enListDate(usersList), isLoading: true, title: "Historial Transacciones", displayName: 'historial', keyId: "historicoId" }), openAlert && (_jsx("div", { className: `alert ${alertSeverity}`, children: alertMessage }))] }));
+    return (_jsxs(_Fragment, { children: [_jsx(TableData, { arrayColums: columnsHistory2, dataRow: enListDate([usersList]), isLoading: true, title: "Historial Transacciones", displayName: 'historial', keyId: "historicoId" }), openAlert && (_jsx("div", { className: `alert ${alertSeverity}`, children: alertMessage }))] }));
 }
